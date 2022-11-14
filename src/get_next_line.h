@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 22:08:36 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/13 22:59:28 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/14 20:56:21 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 
 char	*get_next_line(int fd);
 
-char	*copy_line(char *cursor, char *line, ssize_t len);
+char	*ft_strlcpy(char *dest, char *src, ssize_t size);
+
+char	*ft_strchr(const char *str, int c);
+
+char	*ft_strdup(const char *str);
 
 #endif
