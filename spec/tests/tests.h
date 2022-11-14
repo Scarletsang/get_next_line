@@ -5,7 +5,7 @@
 # include <fcntl.h>
 # include "../../src/get_next_line.h"
 
-void	test1(const char *file_name);
+void	run_test(const char *file_name, char *(f)(int));
 void	test2(const char *file_name);
 
 #endif

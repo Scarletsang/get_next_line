@@ -14,7 +14,7 @@ all: ${NAME}
 
 ${NAME}: ${TARGETS_OBJS} ${TESTS_OBJS}
 ifeq ($(findstring .a, ${TARGETS}),)
-	${CC} -g -Wformat main.c ${TESTS_OBJS} ${TARGETS_OBJS} -o ${NAME} && \
+	@${CC} -g -Wformat main.c ${TESTS_OBJS} ${TARGETS_OBJS} -o ${NAME} && \
 	echo "Success compiling with the target binary ${TARGET_NAMES}!"
 else
 	@${CC} -g -Wformat main.c ${TESTS_OBJS} -L./${TARGET_DIR} -l$(patsubst lib%.a,%,${TARGET_NAMES}) -o ${NAME} && \
@@ -22,7 +22,7 @@ else
 endif
 
 %.o: %.c
-	${CC} ${CFLAGS} -c $< -o $@
+	@${CC} ${CFLAGS} -c $< -o $@
 
 clean: targetclean
 	@rm -f ${TESTS_OBJS}
@@ -35,7 +35,7 @@ re: fclean all
 # Target rules
 
 ${TARGETS_OBJS}: ${TARGETS}
-	${CC} -g -Wall -Werror -Wextra -c $*.c -o $@
+	@${CC} -g -Wall -Werror -Wextra -c $*.c -o $@
 
 targetclean:
 	@rm -f ${TARGETS_OBJS}

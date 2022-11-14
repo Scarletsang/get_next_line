@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:52:46 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/13 23:29:19 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/14 16:10:42 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	test2(argv[0]);
+	run_test(argv[1], &get_next_line);
+	// test2(argv[1]);
 	return (0);
 }
