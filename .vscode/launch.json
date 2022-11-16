@@ -5,7 +5,7 @@
           "name": "Launch",
           "type": "cppdbg",
           "program": "${workspaceFolder}/spec/debug.out",
-          "args": ["${workspaceFolder}/spec/input.txt"],
+          "args": [],
           "cwd": "${workspaceFolder}",
           "request": "launch",
           "MIMode": "lldb"
