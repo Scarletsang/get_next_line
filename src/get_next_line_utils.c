@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/16 13:02:51 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/16 14:20:09 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*ft_substr(char const *str, unsigned int start, size_t max_len)
 ** concatenation of the 2 original strings. NULL is returned if
 ** malloc fails.
 */
-char	*ft_strljoin(char *s1, char const *s2, ssize_t len)
+char	*ft_strljoin(char *s1, char const *s2, size_t len)
 {
 	size_t	s1_len;
 	char	*ptr;
