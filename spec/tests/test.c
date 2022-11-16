@@ -6,76 +6,31 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:27:00 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/16 13:43:11 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/16 14:39:59 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.h"
 
-void	run_test(const char *file_name, char *(f)(int))
+void	get_n_line_fd(test_func func, int fd, size_t n)
 {
 	char	*str;
-	int		fd;
 
-	fd = open(file_name,  O_RDONLY);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
+	printf("\ngetting lines from the fd: %d\n", fd);
+	while (n)
+	{
+		str = func(fd);
+		printf("return: [%s]", str);
+		free(str);
+		n--;
+	}
 	close(fd);
-	fd = open(file_name,  O_RDONLY);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	str = f(fd);
-	printf("[Returns: %s]\n", str);
-	free(str);
-	close(fd);
-
 }
 
-void	test2(const char *file_name)
+void	get_n_line(test_func func, const char *file_name, size_t n)
 {
-	int		fd;
-	int		len = 4;
-	char	buff[len + 1];
+	int fd;
 
-	fd = 1;
-	if (!read(fd, buff, len))
-	{
-		printf("shit");
-	}
-	else
-	{
-		printf("%s", (char *) buff);	
-	}
-	if (!read(fd, buff, len))
-	{
-		printf("shit");
-	}
-	else
-	{
-		printf("%s", (char *) buff);	
-	}
-	close(fd);
+	fd = open(file_name,  O_RDONLY);
+	get_n_line_fd(func, fd, n);
 }

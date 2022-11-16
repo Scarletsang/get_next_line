@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:52:46 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/14 16:10:42 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/16 14:38:33 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	main(int argc, char **argv)
 {
-	run_test(argv[1], &get_next_line);
+	get_n_line(&get_next_line, "inputs/1char.txt", 6);
+	get_n_line(&get_next_line, "inputs/input.txt", 6);
 	// test2(argv[1]);
 	return (0);
 }

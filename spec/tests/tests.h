@@ -5,7 +5,10 @@
 # include <fcntl.h>
 # include "../../src/get_next_line.h"
 
-void	run_test(const char *file_name, char *(f)(int));
-void	test2(const char *file_name);
+typedef char *(*test_func)(int);
+
+void	get_n_line_fd(test_func func, int fd, size_t n);
+
+void	get_n_line(test_func func, const char *file_name, size_t n);
 
 #endif
