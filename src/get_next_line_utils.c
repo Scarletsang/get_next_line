@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/14 20:59:14 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/16 13:02:51 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,86 +29,86 @@ static size_t	ft_strlen(const char *str)
 	return (count);
 }
 
-/** @brief Simple copy an array from src to dest. Unsafe operation. */
-static char	*ft_strcpy(char *dest, const char *src)
+static char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-	char	*tmp;
-
-	tmp = dest;
-	while (*src)
-	{
-		*dest = *src;
-		dest++;
-		src++;
-	}
-	*dest = 0;
-	return (tmp);
-}
-
-/**
-** @brief Safe copy of the source string to the destination 
-** string. It only copies up to a maximum amount of char.
-**
-** @param dest: the destination memory address to copy to.
-** @param src:  a NULL-terminated string to be copied from.
-** @param max_len: the maximum length of char to be copied.
-** @return the length of the destination string after copying.
-*/
-char	*ft_strlcpy(char *dest, char *src, ssize_t size)
-{
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (size)
+	while (i < n && src[i])
 	{
 		dest[i] = src[i];
 		i++;
-		size--;
 	}
-	dest[size] = 0;
+	while (i < n)
+	{
+		dest[i] = 0;
+		i++;
+	}
 	return (dest);
 }
 
 /**
-** @brief Locate the first given char in a given string.
+** @brief Cut a substring out of a given string by its starting index
+** and length. Th substring is stored in a new memory address. The
+** original string is left untouched.
 **
-** @param str: a NULL-terminated string
-** @param c:   the value to find in the string, it is interpreted
-** as char during search.
-** @return the memory address of the value in the string
+** @param str:     a NULL-terminated string to cut the string from.
+** @paarm start:   the starting index to cut from the string
+** @param max_len: the maximum length to cut from the string
+** @return the newly created substring
 */
-char	*ft_strchr(const char *str, int c)
+char	*ft_substr(char const *str, unsigned int start, size_t max_len)
 {
-	while (*str)
+	char	*ptr;
+	size_t	possible_size;
+
+	if (!str)
+		return (NULL);
+	while (*str && start)
 	{
-		if (*str == (char) c)
-		{
-			return ((char *) str);
-		}
 		str++;
+		start--;
 	}
-	if ((char) c == 0)
-	{
-		return ((char *) str);
-	}
-	return (NULL);
+	possible_size = ft_strlen(str);
+	if (max_len + start > possible_size)
+		max_len = possible_size;
+	ptr = (char *) malloc(max_len + 1);
+	if (!ptr)
+		return (NULL);
+	ft_strncpy(ptr, str, max_len + 1);
+	ptr[max_len + 1] = 0;
+	return (ptr);
 }
 
 /**
-** @brief Duplicates a string to a new memory address.
+** @brief Join two strings into a new memory. The second string
+** is concatenated after the first string. It is equivalence
+** to the "concat" function in other programming languages.
 **
-** @param str: a NULL-terminated stirng
-** @return the new string after duplication from the given string
+** @param s1: the 1st NULL-terminated string
+** @param s2: the 2nd NULL-terminated string
+** @return a new memory address storing the string after
+** concatenation of the 2 original strings. NULL is returned if
+** malloc fails.
 */
-char	*ft_strdup(const char *str)
+char	*ft_strljoin(char *s1, char const *s2, ssize_t len)
 {
-	char	*copy;
+	size_t	s1_len;
+	char	*ptr;
 
-	copy = (char *) malloc(ft_strlen(str) + 1);
-	if (!copy)
+	if (!s1)
+	{
+		s1 = "";
+	}
+	s1_len = ft_strlen(s1);
+	ptr = (char *) malloc(s1_len + len + 1);
+	if (!ptr)
 	{
 		return (NULL);
 	}
-	ft_strcpy(copy, str);
-	return (copy);
+	ft_strncpy(ptr, s1, s1_len);
+	ft_strncpy(ptr + s1_len, s2, len + 1);
+	if (s1[0])
+		free(s1);
+	return (ptr);
 }
