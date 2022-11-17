@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/16 14:20:09 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/17 03:07:17 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,48 @@ static char	*ft_strncpy(char *dest, const char *src, size_t n)
 }
 
 /**
-** @brief Cut a substring out of a given string by its starting index
-** and length. Th substring is stored in a new memory address. The
-** original string is left untouched.
+** @brief Copy a part of the source string to the destination string.
 **
-** @param str:     a NULL-terminated string to cut the string from.
-** @paarm start:   the starting index to cut from the string
-** @param max_len: the maximum length to cut from the string
-** @return the newly created substring
+** @param dest:    a NULL-terminated string to copy to.
+** @param src:     a NULL-terminated string to copy from.
+** @param start:   the starting index to cut from the source string
+** @param max_len: the maximum length to cut from the source string
+** @return the destination string
 */
-char	*ft_substr(char const *str, unsigned int start, size_t max_len)
+char	*ft_cutstr(char *dest, char *src, size_t start, size_t max_len)
 {
-	char	*ptr;
-	size_t	possible_size;
+	char	*dest_start;
 
-	if (!str)
-		return (NULL);
-	while (*str && start)
+	dest_start = dest;
+	while (*src && start)
 	{
-		str++;
+		src++;
 		start--;
 	}
-	possible_size = ft_strlen(str);
-	if (max_len + start > possible_size)
-		max_len = possible_size;
-	ptr = (char *) malloc(max_len + 1);
-	if (!ptr)
+	ft_strncpy(dest_start, src, max_len + 1);
+	dest_start[max_len + 1] = 0;
+	return (dest_start);
+}
+
+/**
+** @brief Duplicates a string to a new memory address.
+**
+** @param str: a NULL-terminated stirng
+** @return the new string after duplication from the given string
+*/
+char	*ft_strdup(const char *str)
+{
+	char	*copy;
+	size_t	len;
+
+	len = ft_strlen(str);
+	copy = (char *) malloc(len + 1);
+	if (!copy)
+	{
 		return (NULL);
-	ft_strncpy(ptr, str, max_len + 1);
-	ptr[max_len + 1] = 0;
-	return (ptr);
+	}
+	ft_strncpy(copy, str, len + 1);
+	return (copy);
 }
 
 /**
@@ -108,7 +120,5 @@ char	*ft_strljoin(char *s1, char const *s2, size_t len)
 	}
 	ft_strncpy(ptr, s1, s1_len);
 	ft_strncpy(ptr + s1_len, s2, len + 1);
-	if (s1[0])
-		free(s1);
 	return (ptr);
 }
