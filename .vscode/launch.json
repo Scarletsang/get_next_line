@@ -5,7 +5,7 @@
           "name": "Launch",
           "type": "cppdbg",
           "program": "${workspaceFolder}/spec/debug.out",
-          "args": [],
+          "args": ["${workspaceFolder}/spec/inputs/giant_line.txt", "6"],
           "cwd": "${workspaceFolder}",
           "request": "launch",
           "MIMode": "lldb"
