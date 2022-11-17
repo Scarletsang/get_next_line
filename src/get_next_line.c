@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 22:09:04 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/17 14:23:48 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/17 21:34:51 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ static size_t	find_line_end(char *str)
 	return (0);
 }
 
-static char	*free_current(char *current)
+static char	*free_current(char *current, char leftover[BUFFER_SIZE])
 {
+	leftover[0] = 0;
 	if (current)
 	{
 		free(current);
@@ -45,7 +46,7 @@ static char	*main_logic(int fd, char *current, char leftover[BUFFER_SIZE])
 
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
-		return (free_current(current));
+		return (free_current(current, leftover));
 	read_len = read(fd, buff, BUFFER_SIZE);
 	while (read_len > 0)
 	{
@@ -60,6 +61,8 @@ static char	*main_logic(int fd, char *current, char leftover[BUFFER_SIZE])
 		current = ft_strljoin(current, buff, read_len);
 		read_len = read(fd, buff, BUFFER_SIZE);
 	}
+	if (read_len == -1)
+		return (free(buff), free_current(current, leftover));
 	leftover[0] = 0;
 	return (free(buff), current);
 }
@@ -77,12 +80,13 @@ char	*get_next_line(int fd)
 		{
 			current = ft_strljoin(NULL, leftover, line_len);
 			ft_cutstr(leftover, leftover, \
-				line_len + 1, BUFFER_SIZE - line_len);
+				line_len, BUFFER_SIZE - line_len);
 			return (current);
 		}
 		current = ft_strdup(leftover);
 		if (!current)
 		{
+			leftover[0] = 0;
 			return (NULL);
 		}
 		return (main_logic(fd, current, leftover));
