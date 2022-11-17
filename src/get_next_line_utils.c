@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/17 03:30:38 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/17 04:27:53 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static size_t	ft_strlen(const char *str)
 	return (count);
 }
 
-static char	*ft_strncpy(char *dest, const char *src, size_t n)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
 	size_t	i;
 
@@ -45,25 +45,6 @@ static char	*ft_strncpy(char *dest, const char *src, size_t n)
 		i++;
 	}
 	return (dest);
-}
-
-/**
-** @brief Copy a part of the source string to the destination string.
-**
-** @param dest:    a NULL-terminated string to copy to.
-** @param src:     a NULL-terminated string to copy from.
-** @param start:   the starting index to cut from the source string
-** @param max_len: the maximum length to cut from the source string
-** @return the destination string
-*/
-char	*ft_cutstr(char *dest, char *src, size_t start, size_t max_len)
-{
-	char	*dest_start;
-
-	dest_start = dest;
-	ft_strncpy(dest_start, src + start, max_len + 1);
-	dest_start[max_len + 1] = 0;
-	return (dest_start);
 }
 
 /**
@@ -100,18 +81,24 @@ char	*ft_strljoin(char *target, char const *str, size_t len)
 	size_t	s1_len;
 	char	*new_str;
 
-	if (!target)
+	if (target)
 	{
-		return (ft_strdup(str));
+		s1_len = ft_strlen(target);
+		new_str = (char *) malloc(s1_len + len + 1);
+		if (!new_str)
+			return (NULL);
+		ft_strncpy(new_str, target, s1_len);
+		ft_strncpy(new_str + s1_len, str, len + 1);
+		free(target);
+		new_str[s1_len + len + 1] = 0;
 	}
-	s1_len = ft_strlen(target);
-	new_str = (char *) malloc(s1_len + len + 1);
-	if (!new_str)
+	else
 	{
-		return (NULL);
+		new_str = (char *) malloc(len + 1);
+		if (!new_str)
+			return (NULL);
+		ft_strncpy(new_str, str, len + 1);
+		new_str[len + 1] = 0;
 	}
-	ft_strncpy(new_str, target, s1_len);
-	ft_strncpy(new_str + s1_len, str, len + 1);
-	free(target);
 	return (new_str);
 }
