@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/17 04:27:53 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/17 04:47:57 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static size_t	ft_strlen(const char *str)
 	return (count);
 }
 
-char	*ft_strncpy(char *dest, const char *src, size_t n)
+static char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
 	size_t	i;
 
@@ -45,6 +45,25 @@ char	*ft_strncpy(char *dest, const char *src, size_t n)
 		i++;
 	}
 	return (dest);
+}
+
+/**
+** @brief Copy a part of the source string to the destination string.
+**
+** @param dest:    a NULL-terminated string to copy to.
+** @param src:     a NULL-terminated string to copy from.
+** @param start:   the starting index to cut from the source string
+** @param max_len: the maximum length to cut from the source string
+** @return the destination string
+*/
+char	*ft_cutstr(char *dest, char *src, size_t start, size_t max_len)
+{
+	char	*dest_start;
+
+	dest_start = dest;
+	ft_strncpy(dest_start, src + start, max_len + 1);
+	dest_start[max_len + 1] = 0;
+	return (dest_start);
 }
 
 /**

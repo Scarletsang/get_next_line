@@ -6,30 +6,11 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 22:09:04 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/17 04:28:03 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/17 04:54:52 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-/**
-** @brief Copy a part of the source string to the destination string.
-**
-** @param dest:    a NULL-terminated string to copy to.
-** @param src:     a NULL-terminated string to copy from.
-** @param start:   the starting index to cut from the source string
-** @param max_len: the maximum length to cut from the source string
-** @return the destination string
-*/
-static char	*ft_cutstr(char *dest, char *src, size_t start, size_t max_len)
-{
-	char	*dest_start;
-
-	dest_start = dest;
-	ft_strncpy(dest_start, src + start, max_len + 1);
-	dest_start[max_len + 1] = 0;
-	return (dest_start);
-}
 
 static size_t	find_line_end(char *str)
 {
@@ -47,26 +28,24 @@ static size_t	find_line_end(char *str)
 	return (0);
 }
 
-static char	*init_current(char leftover[BUFFER_SIZE])
+static char	*free_current(char *current)
 {
-	if (leftover[0])
+	if (current)
 	{
-		return (ft_strdup(leftover));
+		free(current);
 	}
 	return (NULL);
 }
 
-static char	*main_logic(int fd, char leftover[BUFFER_SIZE])
+static char	*main_logic(int fd, char *current, char leftover[BUFFER_SIZE])
 {
 	char	*buff;
-	char	*current;
 	ssize_t	read_len;
 	size_t	line_len;
 
-	current = init_current(leftover);
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
-		return (NULL);
+		return (free_current(current));
 	read_len = read(fd, buff, BUFFER_SIZE);
 	while (read_len > 0)
 	{
@@ -78,7 +57,7 @@ static char	*main_logic(int fd, char leftover[BUFFER_SIZE])
 			current = ft_strljoin(current, buff, line_len);
 			return (free(buff), current);
 		}
-		current = ft_strljoin(current, buff, line_len);
+		current = ft_strljoin(current, buff, read_len);
 		read_len = read(fd, buff, BUFFER_SIZE);
 	}
 	leftover[0] = 0;
@@ -101,6 +80,12 @@ char	*get_next_line(int fd)
 				line_len + 1, BUFFER_SIZE - line_len);
 			return (current);
 		}
+		current = ft_strdup(leftover);
+		if (!current)
+		{
+			return (NULL);
+		}
+		return (main_logic(fd, current, leftover));
 	}
-	return (main_logic(fd, leftover));
+	return (main_logic(fd, NULL, leftover));
 }
