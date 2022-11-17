@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 22:09:04 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/17 04:54:52 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/17 14:23:48 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static size_t	find_line_end(char *str)
 {
 	size_t	len;
 
-	len = 1;
+	len = 0;
 	while (str[len])
 	{
 		if (str[len] == '\n')
 		{
-			return (len);
+			return (len + 1);
 		}
 		len++;
 	}
@@ -53,7 +53,7 @@ static char	*main_logic(int fd, char *current, char leftover[BUFFER_SIZE])
 		line_len = find_line_end(buff);
 		if (line_len)
 		{
-			ft_cutstr(leftover, buff, line_len + 1, read_len - line_len);
+			ft_cutstr(leftover, buff, line_len, read_len - line_len);
 			current = ft_strljoin(current, buff, line_len);
 			return (free(buff), current);
 		}

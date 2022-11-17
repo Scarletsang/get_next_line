@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/17 04:47:57 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/17 14:21:50 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,9 @@ static char	*ft_strncpy(char *dest, const char *src, size_t n)
 */
 char	*ft_cutstr(char *dest, char *src, size_t start, size_t max_len)
 {
-	char	*dest_start;
-
-	dest_start = dest;
-	ft_strncpy(dest_start, src + start, max_len + 1);
-	dest_start[max_len + 1] = 0;
-	return (dest_start);
+	ft_strncpy(dest, src + start, max_len + 1);
+	dest[max_len + 1] = 0;
+	return (dest);
 }
 
 /**
@@ -107,17 +104,17 @@ char	*ft_strljoin(char *target, char const *str, size_t len)
 		if (!new_str)
 			return (NULL);
 		ft_strncpy(new_str, target, s1_len);
-		ft_strncpy(new_str + s1_len, str, len + 1);
+		ft_strncpy(new_str + s1_len, str, len);
 		free(target);
-		new_str[s1_len + len + 1] = 0;
+		new_str[s1_len + len] = 0;
 	}
 	else
 	{
 		new_str = (char *) malloc(len + 1);
 		if (!new_str)
 			return (NULL);
-		ft_strncpy(new_str, str, len + 1);
-		new_str[len + 1] = 0;
+		ft_strncpy(new_str, str, len);
+		new_str[len] = 0;
 	}
 	return (new_str);
 }
