@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 22:09:04 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/17 21:34:51 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/18 09:44:06 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*main_logic(int fd, char *current, char leftover[BUFFER_SIZE])
 		line_len = find_line_end(buff);
 		if (line_len)
 		{
-			ft_cutstr(leftover, buff, line_len, read_len - line_len);
+			ft_strncpy(leftover, buff + line_len, read_len - line_len + 1);
 			current = ft_strljoin(current, buff, line_len);
 			return (free(buff), current);
 		}
@@ -79,8 +79,8 @@ char	*get_next_line(int fd)
 		if (line_len)
 		{
 			current = ft_strljoin(NULL, leftover, line_len);
-			ft_cutstr(leftover, leftover, \
-				line_len, BUFFER_SIZE - line_len);
+			ft_strncpy(leftover, leftover + line_len, \
+				BUFFER_SIZE - line_len + 1);
 			return (current);
 		}
 		current = ft_strdup(leftover);

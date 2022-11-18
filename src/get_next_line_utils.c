@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/17 21:00:01 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/18 09:39:01 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static size_t	ft_strlen(const char *str)
 	return (count);
 }
 
-static char	*ft_strncpy(char *dest, const char *src, size_t n)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
 	size_t	i;
 
@@ -39,27 +39,7 @@ static char	*ft_strncpy(char *dest, const char *src, size_t n)
 		dest[i] = src[i];
 		i++;
 	}
-	while (i < n)
-	{
-		dest[i] = 0;
-		i++;
-	}
-	return (dest);
-}
-
-/**
-** @brief Copy a part of the source string to the destination string.
-**
-** @param dest:    a NULL-terminated string to copy to.
-** @param src:     a NULL-terminated string to copy from.
-** @param start:   the starting index to cut from the source string
-** @param max_len: the maximum length to cut from the source string
-** @return the destination string
-*/
-char	*ft_cutstr(char *dest, char *src, size_t start, size_t max_len)
-{
-	ft_strncpy(dest, src + start, max_len + 1);
-	dest[max_len + 1] = 0;
+	dest[i] = 0;
 	return (dest);
 }
 
@@ -114,7 +94,6 @@ char	*ft_strljoin(char *target, char const *str, size_t len)
 		if (!new_str)
 			return (NULL);
 		ft_strncpy(new_str, str, len);
-		new_str[len] = 0;
 	}
 	return (new_str);
 }
