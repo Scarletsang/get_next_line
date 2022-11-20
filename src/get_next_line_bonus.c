@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 22:09:04 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/20 21:33:49 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/20 21:54:20 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,21 @@ static char	*main_logic(int fd, char *current, char leftover[BUFFER_SIZE])
 	return (free(buff), current);
 }
 
+/**
+ * @brief Get a line from a file. This version of get_next_line()
+ * is able to handle multiple files.
+ * 
+ * @details If some extra bytes are read from the last call, it
+ * will first try to find a new line character in it. Pass the 
+ * new line out if it exists in the extra bytes repository (called
+ * leftover). Otherwise, it will read a length of BUFFER_SIZE from 
+ * the file repeatedly until it finds a new line character or EOF. 
+ * 
+ * @param fd the file descriptor to read from
+ * @return A new string containing a line from the file descriptor,
+ * NUll if any malloc operation in the process fails or invalid 
+ * file descriptor is given.
+ */
 char	*get_next_line(int fd)
 {
 	static char	leftover[FD_SETSIZE][BUFFER_SIZE + 1];
