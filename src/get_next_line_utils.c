@@ -6,10 +6,11 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/18 09:39:01 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/20 21:06:32 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "get_next_line.h"
 
 /**
@@ -44,6 +45,39 @@ char	*ft_strncpy(char *dest, const char *src, size_t n)
 }
 
 /**
+** @brief Append a string of length to the end of the target string.
+**
+** @param target: the target NULL-terminated string to append to,
+** this memory address will be freed.
+** @param str: the NULL-terminated string to be appended.
+** @return a new target string after concatenation.
+*/
+char	*ft_strljoin(char *target, char const *str, size_t len)
+{
+	size_t	s1_len;
+	char	*new_str;
+
+	if (target)
+	{
+		s1_len = ft_strlen(target);
+		new_str = (char *) malloc(s1_len + len + 1);
+		if (!new_str)
+			return (free(target), NULL);
+		ft_strncpy(new_str, target, s1_len);
+		ft_strncpy(new_str + s1_len, str, len);
+		free(target);
+	}
+	else
+	{
+		new_str = (char *) malloc(len + 1);
+		if (!new_str)
+			return (NULL);
+		ft_strncpy(new_str, str, len);
+	}
+	return (new_str);
+}
+
+/**
 ** @brief Duplicates a string to a new memory address.
 **
 ** @param str: a NULL-terminated stirng
@@ -62,38 +96,4 @@ char	*ft_strdup(const char *str)
 	}
 	ft_strncpy(copy, str, len + 1);
 	return (copy);
-}
-
-/**
-** @brief Append a string of length to the end of the target string.
-**
-** @param target: the target NULL-terminated string to append to,
-** this memory address will be freed.
-** @param str: the NULL-terminated string to be appended.
-** @return a new target string after concatenation.
-*/
-char	*ft_strljoin(char *target, char const *str, size_t len)
-{
-	size_t	s1_len;
-	char	*new_str;
-
-	if (target)
-	{
-		s1_len = ft_strlen(target);
-		new_str = (char *) malloc(s1_len + len + 1);
-		if (!new_str)
-			return (NULL);
-		ft_strncpy(new_str, target, s1_len);
-		ft_strncpy(new_str + s1_len, str, len);
-		free(target);
-		new_str[s1_len + len] = 0;
-	}
-	else
-	{
-		new_str = (char *) malloc(len + 1);
-		if (!new_str)
-			return (NULL);
-		ft_strncpy(new_str, str, len);
-	}
-	return (new_str);
 }

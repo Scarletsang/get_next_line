@@ -6,7 +6,7 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 22:09:04 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/18 09:44:06 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/20 21:02:48 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ static size_t	find_line_end(char *str)
 	return (0);
 }
 
-static char	*free_current(char *current, char leftover[BUFFER_SIZE])
+static char	*free_all(char *buff, char *current, char leftover[BUFFER_SIZE])
 {
 	leftover[0] = 0;
+	if (buff)
+	{
+		free(buff);
+	}
 	if (current)
 	{
 		free(current);
@@ -45,8 +49,6 @@ static char	*main_logic(int fd, char *current, char leftover[BUFFER_SIZE])
 	size_t	line_len;
 
 	buff = malloc(BUFFER_SIZE + 1);
-	if (!buff)
-		return (free_current(current, leftover));
 	read_len = read(fd, buff, BUFFER_SIZE);
 	while (read_len > 0)
 	{
@@ -54,15 +56,17 @@ static char	*main_logic(int fd, char *current, char leftover[BUFFER_SIZE])
 		line_len = find_line_end(buff);
 		if (line_len)
 		{
-			ft_strncpy(leftover, buff + line_len, read_len - line_len + 1);
 			current = ft_strljoin(current, buff, line_len);
+			ft_strncpy(leftover, buff + line_len, read_len - line_len + 1);
 			return (free(buff), current);
 		}
 		current = ft_strljoin(current, buff, read_len);
+		if (!current)
+			return (free_all(buff, current, leftover));
 		read_len = read(fd, buff, BUFFER_SIZE);
 	}
-	if (read_len == -1)
-		return (free(buff), free_current(current, leftover));
+	if (read_len < 0)
+		return (free_all(buff, current, leftover));
 	leftover[0] = 0;
 	return (free(buff), current);
 }
@@ -73,23 +77,20 @@ char	*get_next_line(int fd)
 	char		*current;
 	size_t		line_len;
 
+	current = NULL;
 	if (leftover[0])
 	{
 		line_len = find_line_end(leftover);
 		if (line_len)
 		{
-			current = ft_strljoin(NULL, leftover, line_len);
+			current = ft_strljoin(current, leftover, line_len);
 			ft_strncpy(leftover, leftover + line_len, \
 				BUFFER_SIZE - line_len + 1);
 			return (current);
 		}
 		current = ft_strdup(leftover);
 		if (!current)
-		{
-			leftover[0] = 0;
-			return (NULL);
-		}
-		return (main_logic(fd, current, leftover));
+			return (free_all(NULL, current, leftover));
 	}
-	return (main_logic(fd, NULL, leftover));
+	return (main_logic(fd, current, leftover));
 }
