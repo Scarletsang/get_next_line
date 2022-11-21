@@ -6,11 +6,10 @@
 /*   By: htsang <htsang@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 22:57:25 by htsang            #+#    #+#             */
-/*   Updated: 2022/11/20 21:46:26 by htsang           ###   ########.fr       */
+/*   Updated: 2022/11/21 19:51:34 by htsang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
 #include "get_next_line.h"
 
 /**
