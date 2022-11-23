@@ -1,5 +1,5 @@
 # Please only change the following line
-TARGET_NAMES=get_next_line_utils.c get_next_line.c
+TARGET_NAMES=get_next_line_utils_bonus.c get_next_line_bonus.c
 
 NAME=debug.out
 TARGET_DIR=../src
@@ -35,7 +35,7 @@ re: fclean all
 # Target rules
 
 ${TARGETS_OBJS}: ${TARGETS}
-	@${CC} -g -Wall -Werror -Wextra -c $*.c -o $@
+	@${CC} -g -Wall -Werror -Wextra -D BUFFER_SIZE=41 -c $*.c -o $@
 
 targetclean:
 	@rm -f ${TARGETS_OBJS}
