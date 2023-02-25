@@ -15,6 +15,7 @@ else
 		get_next_line.c \
 		get_next_line_utils.c
 endif
+SRC:=${addprefix src/,${SRC}}
 OBJS:=${SRC:.c=.o}
 
 all: ${NAME}
